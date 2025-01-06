@@ -1,13 +1,13 @@
 <script setup>
 import Header from "./components/Header.vue";
-import PostList from "./components/PostList"
+import PostCard from "./components/PostCard.vue";
 </script>
 
 <template>
   <main class="main-body">
     <div class="container">
       <Header />
-      <PostList/>
+      <PostCard/>
     </div>
   </main>
 </template>
@@ -19,5 +19,6 @@ import PostList from "./components/PostList"
 .container {
   width: 80%;
   margin: auto;
+  padding-bottom: 32px;
 }
 </style>
