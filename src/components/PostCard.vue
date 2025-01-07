@@ -1,4 +1,7 @@
-<script setup></script>
+<script lang="ts" setup>
+import {posts} from '@/stores/postStores.ts'
+// console.log(posts)
+</script>
 
 <template>
   <div class="posts">
