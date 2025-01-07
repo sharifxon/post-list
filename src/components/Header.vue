@@ -1,25 +1,26 @@
 
-<script setup>
+<script lang="ts" setup>
 
 </script>
 
 <template>
-    <div class="posts-header">
-        <h1 class="posts-heading">Posts</h1>
-        <button class="add-post-btn">+ New post</button>
+    
+    <div class="posts">
+        <h1 class="posts__heading">Posts</h1>
+        <button class="posts__btn">+ New post</button>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.posts-header{
+.posts{
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.posts-heading{
+
+&__heading{
     color: #343940;
 }
-.add-post-btn{
+&__btn{
     background-color: #5180FD;
     color: #fff;
     border-radius: 16px;
@@ -27,6 +28,7 @@
     height: 48px;
     cursor: pointer;
     border:none
+}
 }
 
 </style>

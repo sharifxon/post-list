@@ -15,6 +15,7 @@ import PostCard from "./components/PostCard.vue";
 <style lang="scss" scoped>
 .main-body{
   background-color: #eff1f4;
+  min-height: 100vh;
 }
 .container {
   width: 80%;
