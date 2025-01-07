@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import type{ Post } from '@/types/Post';
 import postService from '@/services/postService';
-import { Post } from '@/types/Post';
 
 export const usePostStore = defineStore('postStore', () => {
   // Reactive states
@@ -78,3 +78,5 @@ export const usePostStore = defineStore('postStore', () => {
     deletePost,
   };
 });
+
+// export default usePostStore

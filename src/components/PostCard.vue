@@ -1,11 +1,15 @@
 <script lang="ts" setup>
-import {posts} from '@/stores/postStores.ts'
-// console.log(posts)
+import  { usePostStore } from '@/stores/postStores';
+
+    // const postStore = usePostStore();
+
+    // const { posts, error, loading } = postStore; 
+
 </script>
 
 <template>
   <div class="posts">
-    <div class="post" v-for="post in 8">
+    <div class="post" v-for="post in 7">
       <h2 class="post__card-title">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit
       </h2>
