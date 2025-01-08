@@ -1,5 +1,5 @@
 import axios from "axios";
-import type{ Post } from "@/types/Post.ts";
+import type{ Post } from "@/types/Post";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL
 
