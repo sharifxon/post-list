@@ -7,7 +7,7 @@
     
     <div class="posts">
         <h1 class="posts__heading">Posts</h1>
-        <button class="posts__btn">+ New post</button>
+        <router-link class="posts__btn" to="/post-form">+ New post</router-link>
     </div>
 </template>
 
@@ -27,7 +27,8 @@
     padding: 12px 16px;
     height: 48px;
     cursor: pointer;
-    border:none
+    border:none;
+    text-decoration: none;
 }
 }
-
+</style>

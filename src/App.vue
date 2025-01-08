@@ -1,15 +1,11 @@
-<script setup>
-import Header from "./components/Header.vue";
-import PostCard from "./components/PostCard.vue";
+<script lang="ts" setup>
+
 </script>
 
 <template>
-  <main class="main-body">
-    <div class="container">
-      <Header />
-      <PostCard/>
-    </div>
-  </main>
+  <div>
+    <RouterView/>
+  </div>
 </template>
 
 <style lang="scss" scoped>

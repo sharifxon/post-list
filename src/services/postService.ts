@@ -4,8 +4,8 @@ import type{ Post } from "@/types/Post.ts";
 const API_URL = "https://jsonplaceholder.typicode.com/posts";
 
 //  GET 
-const getPosts = async (): Promise<Post[]> => {
-  const { data } = await axios.get<Post[]>(API_URL);
+const getPosts = async (userId:number): Promise<Post[]> => {
+  const { data } = await axios.get<Post[]>(`${API_URL}?userId=${userId}`);
   return data;
 };
 

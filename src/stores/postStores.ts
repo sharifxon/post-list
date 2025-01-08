@@ -1,20 +1,20 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, shallowRef } from 'vue';
 import type{ Post } from '@/types/Post';
 import postService from '@/services/postService';
 
 export const usePostStore = defineStore('postStore', () => {
   // Reactive states
-  const posts = ref<Post[]>([]);  
+  const posts = shallowRef<Post[]>([]);  
   const error = ref<string | null>(null); 
   const loading = ref(false);
 
   // Function to get all posts
-  const fetchPosts = async () => {
+  const fetchPosts = async (userId:number) => {
     loading.value = true;
     error.value = null;
     try {
-      const data = await postService.getPosts(); 
+      const data = await postService.getPosts(userId); 
       posts.value = data; 
     } catch (err: any) {
       error.value = err.message; 
@@ -24,7 +24,7 @@ export const usePostStore = defineStore('postStore', () => {
   };
 
   // Function of adding a new post
-  const addPost = async (post: { title: string; body: string }) => {
+  const addPost = async (post: { title: string; body: string; userId: number }) => {
     loading.value = true;
     error.value = null;
     try {
