@@ -2,6 +2,8 @@
 import type { Post } from "@/types/Post";
 import { reactive, shallowReactive } from "vue";
 import { usePostStore } from "@/stores/postStores";
+import useVuelidate from "@vuelidate/core";
+import { required, minLength } from "@vuelidate/validators";
 import { useRoute, useRouter } from "vue-router";
 
 const postStore = usePostStore();
@@ -15,6 +17,12 @@ const postData = shallowReactive({
   userId: 12,
 });
 
+const rules = {
+  title: { required, minLength: minLength(2) },
+  body: { required, minLength: minLength(5) },
+};
+
+const v$ = useVuelidate(rules, postData);
 if (isEditing) {
   const existingPost = postStore.posts.find((p) => p.id === +route.query.id);
   if (existingPost) {
@@ -36,10 +44,19 @@ const updatePost = async () => {
 };
 
 const handleSubmit = async () => {
-  if (isEditing) {
-    await updatePost();
-  } else {
-    await sendPostData();
+    v$.value.$touch();
+  if (v$.value.$invalid) {
+    return; 
+  }
+  try {
+      if (isEditing) {
+        await updatePost();
+      } else {
+        await sendPostData();
+      }
+    
+  } catch (error) {
+    console.error("error:", error);
   }
 };
 </script>
@@ -51,11 +68,18 @@ const handleSubmit = async () => {
       <form @submit.prevent="handleSubmit">
         <div class="post__form-title">
           <label for="title">title:</label>
-          <input type="text" name="" id="title" v-model="postData.title" />
+          <input type="text" name="" id="title" v-model="postData.title" :class="{ invalid: v$.title.$error }" />
+          <span v-if="v$.title.$error" class="error">
+              {{ v$.title.$errors[0]?.$message || "Title is wrong!" }}
+          </span>
         </div>
         <div class="post__form-body">
           <label for="body">post body:</label>
-          <textarea name="body" id="body" v-model="postData.body"></textarea>
+          <textarea name="body" id="body" v-model="postData.body" :class="{ invalid: v$.body.$error }">
+          </textarea>
+          <span v-if="v$.body.$error" class="error">
+              {{ v$.body.$errors[0]?.$message || "Text is incorrect!" }}
+          </span>
         </div>
         <div class="post__form-btn">
           <button class="post__form-submit" type="submit">
@@ -120,5 +144,13 @@ const handleSubmit = async () => {
       opacity: 0.8;
     }
   }
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+.invalid {
+  border-color: red;
 }
 </style>
