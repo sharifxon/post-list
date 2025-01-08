@@ -23,8 +23,8 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, postData);
-if (isEditing) {
-  const existingPost = postStore.posts.find((p) => p.id === +route.query.id);
+if (isEditing && route.query.id) {
+  const existingPost = postStore.posts.find((p) => p.id === +route.query.id!);
   if (existingPost) {
     postData.title = existingPost.title;
     postData.body = existingPost.body;
