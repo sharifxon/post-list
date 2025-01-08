@@ -1,7 +1,7 @@
 import axios from "axios";
 import type{ Post } from "@/types/Post.ts";
 
-const API_URL = "https://jsonplaceholder.typicode.com/posts";
+const API_URL = import.meta.env.VITE_API_BASE_URL
 
 //  GET 
 const getPosts = async (userId:number): Promise<Post[]> => {
