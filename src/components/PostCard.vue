@@ -2,17 +2,24 @@
 import { usePostStore } from "@/stores/postStores";
 import { computed, onMounted } from "vue";
 import Loader from "./Loader.vue";
+import Modal from "@/components/Modal.vue";
+import { useModalStore } from "@/stores/modalStore";
 
 const postStore = usePostStore();
+const modalStore = useModalStore()
 const userId = 1
 onMounted(() => {
   postStore.fetchPosts(userId);
 });
 
-const deletePost = async(id:number) => {
- await postStore.deletePost(id)
+const deletePost = (id:number) => {
+  modalStore.openModal(id)
+  modalStore.deletePost(id)
 }
 
+const openModal = (id:number) => {
+  modalStore.openModal(id)
+}
 const postList = computed(() => postStore.posts);
 </script>
 
@@ -29,14 +36,12 @@ const postList = computed(() => postStore.posts);
         {{ post.body }}
       </p>
       <div class="post__card-footer">
-        
-        <router-link :to="{ path: '/post-form', query: {id: post.id}}" >
-          <span class="edit-icon fas fa-pen"> </span>
-        </router-link>
+        <span class="edit-icon fas fa-pen" @click="openModal(post.id)" ></span>
         <span class="delete-icon far fa-trash-can" @click="deletePost(post.id)"> </span> 
       </div>
     </div>
   </div>
+  <Modal/>  
 </template>
 
 <style lang="scss" scoped>

@@ -5,16 +5,19 @@ import { usePostStore } from "@/stores/postStores";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import { useRoute, useRouter } from "vue-router";
+import { useModalStore } from "@/stores/modalStore";
 
 const postStore = usePostStore();
 const route = useRoute();
 const router = useRouter();
+const modalStore = useModalStore();
+const postId = modalStore.postId
 
-const isEditing = !!route.query.id;
+const isEditing = !!postId;
 const postData = shallowReactive({
   title: "",
   body: "",
-  userId: 12,
+  userId: 1,
 });
 
 const rules = {
@@ -23,8 +26,8 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, postData);
-if (isEditing && route.query.id) {
-  const existingPost = postStore.posts.find((p) => p.id === +route.query.id!);
+if (isEditing && postId) {
+  const existingPost = postStore.posts.find((p) => p.id === +postId!);
   if (existingPost) {
     postData.title = existingPost.title;
     postData.body = existingPost.body;
@@ -37,8 +40,8 @@ const sendPostData = async () => {
 };
 
 const updatePost = async () => {
-  if (isEditing && route.query.id) {
-    await postStore.updatePost(+route.query.id, postData);
+  if (isEditing) {
+    await postStore.updatePost(+postId, postData);
     router.push("/");
   }
 };
@@ -51,19 +54,24 @@ const handleSubmit = async () => {
   try {
       if (isEditing) {
         await updatePost();
+
       } else {
         await sendPostData();
       }
-    
+      modalStore.closeModal();
   } catch (error) {
     console.error("error:", error);
   }
 };
+
+const closeModal = () => {
+  modalStore.closeModal();
+}
 </script>
 
 <template>
   <div class="post">
-    <h1 class="post__title">{{ isEditing ? "Postni Tahrirlash" : "Post Qo'shish" }}</h1>
+    <h2 class="post__title">{{ isEditing ? "Edit post" : "Add post" }}</h2>
     <div class="post__form">
       <form @submit.prevent="handleSubmit">
         <div class="post__form-title">
@@ -81,11 +89,12 @@ const handleSubmit = async () => {
               {{ v$.body.$errors[0]?.$message || "Text is incorrect!" }}
           </span>
         </div>
-        <div class="post__form-btn">
           <button class="post__form-submit" type="submit">
             {{ isEditing ? "Update Post" : "Send Post" }}
           </button>
-        </div>
+          <button class="post__form-cancel" type="button" @click="closeModal">
+            cancel
+          </button>
       </form>
     </div>
   </div>
@@ -93,21 +102,19 @@ const handleSubmit = async () => {
 
 <style lang="scss" scoped>
 .post {
-  width: 60%;
+  width: 100%;
   margin: auto;
   &__form {
-    background: #f8f8f8;
-    padding: 8px;
+    // background: #f8f8f8;
+    // padding: 0 40px 40px 40px;
     input {
       width: 100%;
-      padding: 12px;
-      font-size: 20px;
-      border-radius: 16px;
-      border: #57b846 solid 2px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: none;
+      background-color: #EFF1F4;
     }
-    label {
-      font-size: 20px;
-    }
+    
     input:focus,
     textarea:focus {
       outline: none;
@@ -115,32 +122,43 @@ const handleSubmit = async () => {
     textarea {
       width: 100%;
       height: 120px;
-      border: solid #57b846 2px;
-      border-radius: 16px;
-      padding: 12px;
+      border-radius: 12px;
+      padding: 12px 16px;
       overflow-y: auto;
+      border: none;
+      background-color: #EFF1F4;
     }
     &-body {
       margin-top: 32px;
     }
-    &-btn {
-      margin-top: 32px;
-      display: flex;
-      justify-content: center;
-    }
+    // &-btn {
+    //   margin-top: 32px;
+    //   display: flex;
+    //   justify-content: center;
+    // }
     &-submit {
+      margin-top: 24px;
       color: #fff;
-      background-color: #57b846;
+      background-color: #5180FD;
       font-weight: 500;
-      padding: 12px 24px;
+      padding: 14px 16px;
       border-radius: 1rem;
-      width: 256px;
-      font-size: 20px;
-      margin: auto;
+      width: 100%;
       cursor: pointer;
       border: none;
     }
-    &-submit:hover {
+    &-cancel{
+      background:#DEE2E9;
+      margin-top: 12px;
+      font-weight: 500;
+      padding: 14px 16px;
+      border-radius: 1rem;
+      width: 100%;
+      cursor: pointer;
+      border: none;
+
+    }
+    &-submit:hover, &-cancel:hover {
       opacity: 0.8;
     }
   }
