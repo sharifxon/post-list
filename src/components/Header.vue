@@ -4,15 +4,15 @@ import Modal from "./Modal.vue";
 
 const modalStore = useModalStore();
 
-const openModal = () => {
-  modalStore.openModal();
+const openModal = (id:number) => {
+  modalStore.openModal(id);
 };
 </script>
 
 <template>
   <div class="posts">
     <h1 class="posts__heading">Posts</h1>
-    <button class="posts__btn" @click="openModal">+ New post</button>
+    <button class="posts__btn" @click="openModal(0)">+ New post</button>
   </div>
   <Modal />
 </template>
