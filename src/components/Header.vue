@@ -14,7 +14,7 @@ const openModal = () => {
     <h1 class="posts__heading">Posts</h1>
     <button class="posts__btn" @click="openModal">+ New post</button>
   </div>
-  <Modal/>
+  <Modal />
 </template>
 
 <style lang="scss" scoped>
@@ -27,7 +27,7 @@ const openModal = () => {
     color: #343940;
   }
   &__btn {
-    background-color: #5180FD;
+    background-color: #5180fd;
     color: #fff;
     border-radius: 16px;
     padding: 12px 16px;

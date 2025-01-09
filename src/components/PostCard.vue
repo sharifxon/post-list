@@ -3,45 +3,54 @@ import { usePostStore } from "@/stores/postStores";
 import { computed, onMounted } from "vue";
 import Loader from "./Loader.vue";
 import Modal from "@/components/Modal.vue";
+import PostForm from "@/components/PostForm.vue";
+import DeletePost from "@/components/DeletePost.vue";
 import { useModalStore } from "@/stores/modalStore";
 
 const postStore = usePostStore();
-const modalStore = useModalStore()
-const userId = 1
+const modalStore = useModalStore();
+const userId = 1;
+const isDelete = computed(() => !!modalStore.deletePostId);
+
 onMounted(() => {
   postStore.fetchPosts(userId);
 });
 
-const deletePost = (id:number) => {
-  modalStore.openModal(id)
-  modalStore.deletePost(id)
-}
+const deletePost = (id: number) => {
+  modalStore.openModal(id);
+  modalStore.deletePost(id);
+};
 
-const openModal = (id:number) => {
-  modalStore.openModal(id)
-}
+const openModal = (id: number) => {
+  modalStore.openModal(id);
+};
+
 const postList = computed(() => postStore.posts);
 </script>
 
 <template>
   <div v-if="postStore.loading" class="loader">
-    <Loader/> 
+    <Loader />
   </div>
   <div class="posts">
-    <div class="post" v-for="post in postList">
-      <h2 class="post__card-title">
+    <div class="postt" v-for="post in postList">
+      <h2 class="postt__card-title">
         {{ post.title }}
       </h2>
-      <p class="post__card-body">
+      <p class="postt__card-body">
         {{ post.body }}
       </p>
-      <div class="post__card-footer">
-        <span class="edit-icon fas fa-pen" @click="openModal(post.id)" ></span>
-        <span class="delete-icon far fa-trash-can" @click="deletePost(post.id)"> </span> 
+      <div class="postt__card-footer">
+        <span class="edit-icon fas fa-pen" @click="openModal(post.id)"></span>
+        <span class="delete-icon far fa-trash-can" @click="deletePost(post.id)">
+        </span>
       </div>
     </div>
   </div>
-  <Modal/>  
+  <Modal>
+    <DeletePost v-if="isDelete" />
+    <PostForm v-else />
+  </Modal>
 </template>
 
 <style lang="scss" scoped>
@@ -50,7 +59,7 @@ const postList = computed(() => postStore.posts);
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.post {
+.postt {
   width: 48%;
   background-color: #fff;
   border-radius: 16px;
@@ -85,12 +94,11 @@ const postList = computed(() => postStore.posts);
   }
 }
 
-.loader{
+.loader {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   margin-top: 128px;
 }
-
 </style>

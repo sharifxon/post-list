@@ -1,21 +1,18 @@
 <script lang="ts" setup>
+import { computed } from "vue";
 import { useModalStore } from "@/stores/modalStore";
-import PostForm from "@/components/PostForm.vue";
-import DeletePost from "@/components/DeletePost.vue";
 
-const modalStore = useModalStore()
-
-const isDelete = modalStore.deletePostId
-console.log(isDelete, 85)
+const modalStore = useModalStore();
 </script>
 
 <template>
-  {{ isDelete }}
-  <div v-if="modalStore.isModalOpen" class="modal-overlay" @click="modalStore.closeModal">
+  <div
+    v-if="modalStore.isModalOpen"
+    class="modal-overlay"
+    @click="modalStore.closeModal"
+  >
     <div class="modal-content" @click.stop>
-      <!-- <button class="close-btn" @click="modalStore.closeModal">&times;</button>  -->
-      <DeletePost v-if="isDelete"/>
-      <PostForm v-else />
+      <slot />
     </div>
   </div>
 </template>
@@ -42,7 +39,6 @@ console.log(isDelete, 85)
   z-index: 20;
   width: 60%;
   max-width: 480px;
-  
 }
 
 .close-btn {
@@ -55,4 +51,3 @@ console.log(isDelete, 85)
   cursor: pointer;
 }
 </style>
-
