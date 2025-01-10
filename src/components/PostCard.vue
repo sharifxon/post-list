@@ -33,7 +33,7 @@ const postList = computed(() => postStore.posts);
     <Loader />
   </div>
   <div class="posts">
-    <div class="postt" v-for="post in postList">
+    <div class="postt" v-for="post in postList.reverse()">
       <h2 class="postt__card-title">
         {{ post.title }}
       </h2>

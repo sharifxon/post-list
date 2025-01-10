@@ -6,16 +6,19 @@ const modalStore = useModalStore();
 </script>
 
 <template>
-  <div
-    v-if="modalStore.isModalOpen"
-    class="modal-overlay"
-    @click="modalStore.closeModal"
-  >
-    <div class="modal-content" @click.stop>
-      <slot />
+  <Transition name="modal">
+    <div
+      v-if="modalStore.isModalOpen"
+      class="modal-overlay"
+      @click="modalStore.closeModal"
+    >
+      <div class="modal-content" @click.stop>
+        <slot />
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
+
 
 <style scoped>
 .modal-overlay {
@@ -26,6 +29,8 @@ const modalStore = useModalStore();
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .modal-content {
@@ -41,13 +46,14 @@ const modalStore = useModalStore();
   max-width: 480px;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -60%);
 }
 </style>

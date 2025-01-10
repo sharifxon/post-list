@@ -27,12 +27,16 @@ const deletePost = (id: number) => {
 </template>
 
 <style lang="scss" scoped>
+h3{
+  text-align: center;
+}
 .delete__btn {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1rem;
 
   button {
-    width: 48%;
+    width: 30%;
     padding: 12px 16px;
     border-radius: 12px;
     border: none;

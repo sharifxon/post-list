@@ -115,6 +115,7 @@ const closeModal = () => {
       border-radius: 12px;
       border: none;
       background-color: #eff1f4;
+      margin-top: 8px;
     }
 
     input:focus,
@@ -129,6 +130,7 @@ const closeModal = () => {
       overflow-y: auto;
       border: none;
       background-color: #eff1f4;
+      margin-top: 8px;
     }
     &-body {
       margin-top: 32px;
@@ -139,7 +141,7 @@ const closeModal = () => {
       background-color: #5180fd;
       font-weight: 500;
       padding: 14px 16px;
-      border-radius: 1rem;
+      border-radius: 12px ;
       width: 100%;
       cursor: pointer;
       border: none;
@@ -149,7 +151,7 @@ const closeModal = () => {
       margin-top: 12px;
       font-weight: 500;
       padding: 14px 16px;
-      border-radius: 1rem;
+      border-radius: 12px;
       width: 100%;
       cursor: pointer;
       border: none;
